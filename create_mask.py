@@ -5,26 +5,21 @@ def create_image(width, height):
     image = Image.new("RGB", (width, height), (255, 255, 255))
     return image
 
-def draw_black_rectangles(image, black_rectangles):
+def draw_black_shapes(image, black_shapes):
     draw = ImageDraw.Draw(image)
 
-    for rect in black_rectangles:
-        # rect是一个矩形，以左上角和右下角的坐标表示
-        draw.rectangle(rect, fill=(0, 0, 0))
+    for shape in black_shapes:
+        if shape['type'] == 'rectangle':
+            draw.rectangle(shape['coordinates'], fill=(0, 0, 0))
+        elif shape['type'] == 'triangle':
+            draw.polygon(shape['coordinates'], fill=(0, 0, 0))
 
-    del draw  # 释放画笔
+    del draw
 
 def save_image(image, filename):
     image.save(filename)
 
 def merge_images(bw_image, rgb_image, output_path):
-    # 打开黑白图
-    # bw_image = Image.open(bw_image_path).convert("L")  # 转换为灰度图
-
-    # 打开RGB图
-    # rgb_image = Image.open(rgb_image_path)
-
-    # 确保两张图像具有相同的大小
     if bw_image.size != rgb_image.size:
         raise ValueError("Image sizes do not match.")
 
@@ -40,29 +35,28 @@ def merge_images(bw_image, rgb_image, output_path):
     merged_image = Image.alpha_composite(rgb_image.convert("RGBA"), bw_image_rgba)
 
     # 保存合并后的图像
-    merged_image.save(output_path, "PNG")   
+    merged_image.save(output_path, "PNG")
 
 if __name__ == "__main__":
     width, height = 1920, 1080
 
-    # 创建一张白色图片
+    #初始mask，全白
     mask = create_image(width, height)
 
-    # 定义几个矩形区域，以左上角和右下角的坐标表示
-    black_rectangles = [
-        [0, 0, 260, 50],
-        [1550, 0, 1920,50],
-        [0, 1000, 550, 1080],
-        [550,800,1720,1080]
-        # 添加更多的矩形区域...
+    # 定义绘制字典
+    black_shapes = [
+        {'type': 'rectangle', 'coordinates': [0, 0, 260, 50]},
+        {'type': 'rectangle', 'coordinates': [1550, 0, 1920, 50]},
+        {'type': 'rectangle', 'coordinates': [0, 1000, 550, 1080]},
+        # {'type': 'rectangle', 'coordinates': [550, 800, 1720, 1080]},
+        {'type': 'triangle', 'coordinates': [(1111, 810), (610, 1080), (1793, 1080)]},
+        # Add more shapes...
     ]
-
-    # 在图片上绘制黑色矩形
-    draw_black_rectangles(mask, black_rectangles)
+    # 绘制
+    draw_black_shapes(mask, black_shapes)
 
     img = Image.open('q.jpg')
 
     merge_images(mask, img, 'merged.png')
 
-    # 保存图片
-    save_image(mask, "mask.png")
+    save_image(mask, "mask.jpg")
