@@ -7,14 +7,14 @@ flag_a = 0
 flag_b = 0
 def this_receive():
     global flag_a
-    # URL='rtsp://192.168.8.88:554/av0_0'
-    URL='rtsp://admin:abcd1234@192.168.8.108:8555/cam/realmonitor?channel=1&subtype=1&unicast=true&proto=Onvif'
+    URL='rtsp://192.168.8.88:554/av0_0'
+    # URL='rtsp://admin:abcd1234@192.168.8.108:8555/cam/realmonitor?channel=1&subtype=1&unicast=true&proto=Onvif'
     cap = cv.VideoCapture(URL)
     
     while True:
         ret, next_frame = cap.read()
         if ret:
-            # cv.imshow("xsc", next_frame)
+            cv.imshow("xsc", next_frame)
             if flag_a:
                 size = next_frame.shape
                 w = size[1] #宽度

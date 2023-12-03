@@ -46,16 +46,20 @@ if __name__ == "__main__":
     # 定义绘制字典
     black_shapes = [
         {'type': 'rectangle', 'coordinates': [0, 0, 260, 50]},
-        {'type': 'rectangle', 'coordinates': [1550, 0, 1920, 50]},
-        {'type': 'rectangle', 'coordinates': [0, 1000, 550, 1080]},
+        {'type': 'rectangle', 'coordinates': [1550, 0, 1920, 76]},
+        # {'type': 'rectangle', 'coordinates': [0, 1000, 550, 1080]},
         # {'type': 'rectangle', 'coordinates': [550, 800, 1720, 1080]},
-        {'type': 'triangle', 'coordinates': [(1111, 810), (610, 1080), (1793, 1080)]},
+        {'type': 'triangle', 'coordinates': [(1111, 810), (530, 1080), (1793, 1080)]},
+        {'type': 'triangle', 'coordinates': [(580, 900), (530, 1080), (1100, 900)]},
+        {'type': 'triangle', 'coordinates': [(1250, 890), (1630, 830), (1750, 1080)]},
+
+
         # Add more shapes...
     ]
     # 绘制
     draw_black_shapes(mask, black_shapes)
 
-    img = Image.open('q.jpg')
+    img = Image.open('ship1111.jpg')
 
     merge_images(mask, img, 'merged.png')
 
